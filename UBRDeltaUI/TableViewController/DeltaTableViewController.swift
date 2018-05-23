@@ -32,7 +32,6 @@ public enum DeltaUpdateOptions {
     case dataOnly
 }
 
-
 open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Controller -
@@ -438,7 +437,9 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
      is not needed.
      */
     open func tableViewCellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell? {
-        let item = sections[indexPath.section].items[indexPath.row]
+        guard let item = sections[safe: indexPath.section]?.items[safe: indexPath.row] else {
+            return nil
+        }
         
         getTableViewCell : do {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: item.reuseIdentifier) else { break getTableViewCell }
@@ -506,7 +507,9 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
     // MARK: Header
     
     open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let item = sections[section]
+        guard let item = sections[safe: section] else {
+            return nil
+        }
         var view: UIView?
         
         configureView : do {
@@ -525,7 +528,9 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
     
     
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let item = sections[section]
+        guard let item = sections[safe: section] else {
+            return 0
+        }
         var height: CGFloat = tableView.sectionHeaderHeight
         
         calculateHeight : do {
@@ -554,7 +559,9 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
     // MARK: Footer
 
     open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let item = sections[section]
+        guard let item = sections[safe: section] else {
+            return nil
+        }
         var view: UIView?
         
         configureView : do {
@@ -573,7 +580,9 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
     
     
     open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let item = sections[section]
+        guard let item = sections[safe: section] else {
+            return 0
+        }
         var height: CGFloat = CGFloat.leastNormalMagnitude
         
         calculateHeight : do {
@@ -607,12 +616,20 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
     // MARK: Selection
     
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = sections[indexPath.section].items[indexPath.row]
+        guard let item = sections[safe: indexPath.section]?.items[safe: indexPath.row] else {
+            return
+        }
         
         if let selectableItem = item as? SelectableTableViewItem {
             selectableItem.selectionHandler?()
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+private extension Collection {
+    subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
 }
