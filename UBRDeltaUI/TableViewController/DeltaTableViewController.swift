@@ -223,7 +223,7 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
         contentDiffer.itemUpdate = { [weak self] (items, section, insertIndexes, reloadIndexMap, deleteIndexes) in
             guard let weakSelf = self else { return }
             
-            weakSelf.sections[section].items = items.flatMap { $0 as? DeltaTableViewItem }
+            weakSelf.sections[section].items = items.compactMap { $0 as? DeltaTableViewItem }
             
             if insertIndexes.count == 0 && reloadIndexMap.count == 0 && deleteIndexes.count == 0 {
                 return
@@ -273,7 +273,7 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
         contentDiffer.itemReorder = { [weak self] (items, section, reorderMap) in
             guard let weakSelf = self else { return }
             
-            weakSelf.sections[section].items = items.flatMap { $0 as? DeltaTableViewItem }
+            weakSelf.sections[section].items = items.compactMap { $0 as? DeltaTableViewItem }
             
             if reorderMap.count == 0 {
                 return
@@ -296,7 +296,7 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
         contentDiffer.sectionUpdate = { [weak self] (sections, insertIndexes, reloadIndexMap, deleteIndexes) in
             guard let weakSelf = self else { return }
             
-            weakSelf.sections = sections.flatMap({ $0 as? DeltaTableViewSectionItem })
+            weakSelf.sections = sections.compactMap({ $0 as? DeltaTableViewSectionItem })
             
             if insertIndexes.count == 0 && reloadIndexMap.count == 0 && deleteIndexes.count == 0 {
                 return
@@ -341,7 +341,7 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
         contentDiffer.sectionReorder = { [weak self] (sections, reorderMap) in
             guard let weakSelf = self else { return }
             
-            weakSelf.sections = sections.flatMap({ $0 as? DeltaTableViewSectionItem })
+            weakSelf.sections = sections.compactMap({ $0 as? DeltaTableViewSectionItem })
             
             if reorderMap.count == 0 {
                 return
@@ -540,7 +540,9 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
             let fittedWidth = tableView.bounds.width
             let fittedHeight = UILayoutFittingCompressedSize.height
             let fittingSize = CGSize(width: fittedWidth, height: fittedHeight)
-            let size = prototype.contentView.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: 999, verticalFittingPriority: UILayoutPriorityFittingSizeLevel)
+            let size = prototype.contentView.systemLayoutSizeFitting(fittingSize,
+                                                                     withHorizontalFittingPriority: UILayoutPriority(rawValue: 999),
+                                                                     verticalFittingPriority: UILayoutPriority.fittingSizeLevel)
             height = size.height
         }
         
@@ -586,7 +588,9 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
             let fittedWidth = tableView.bounds.width
             let fittedHeight = UILayoutFittingCompressedSize.height
             let fittingSize = CGSize(width: fittedWidth, height: fittedHeight)
-            let size = prototype.contentView.systemLayoutSizeFitting(fittingSize, withHorizontalFittingPriority: 999, verticalFittingPriority: UILayoutPriorityFittingSizeLevel)
+            let size = prototype.contentView.systemLayoutSizeFitting(fittingSize,
+                                                                     withHorizontalFittingPriority: UILayoutPriority(rawValue: 999),
+                                                                     verticalFittingPriority: UILayoutPriority.fittingSizeLevel)
             height = size.height
         }
         
