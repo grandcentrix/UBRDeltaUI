@@ -54,22 +54,22 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
     // Table View API
     
     /// The type of animation when rows are deleted.
-    open var rowDeletionAnimation = UITableViewRowAnimation.automatic
+    open var rowDeletionAnimation = UITableView.RowAnimation.automatic
     
     /// The type of animation when rows are inserted.
-    open var rowInsertionAnimation = UITableViewRowAnimation.automatic
+    open var rowInsertionAnimation = UITableView.RowAnimation.automatic
     
     /// The type of animation when rows are reloaded (not updated)
-    open var rowReloadAnimation = UITableViewRowAnimation.automatic
+    open var rowReloadAnimation = UITableView.RowAnimation.automatic
     
     /// The type of animation when sections are deleted.
-    open var sectionDeletionAnimation = UITableViewRowAnimation.automatic
+    open var sectionDeletionAnimation = UITableView.RowAnimation.automatic
     
     /// The type of animation when sections are inserted.
-    open var sectionInsertionAnimation = UITableViewRowAnimation.automatic
+    open var sectionInsertionAnimation = UITableView.RowAnimation.automatic
     
     /// The type of animation when sections are reloaded (not updated)
-    open var sectionReloadAnimation = UITableViewRowAnimation.automatic
+    open var sectionReloadAnimation = UITableView.RowAnimation.automatic
     
     
     
@@ -102,7 +102,7 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
         // Note: Header and footer views are calculated usnig protoype views, because
         // using UITableViewAutomaticDimension for header and footer views leads to broken
         // animated table view updates
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44.0
         
         // Add reusable cells
@@ -488,7 +488,7 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
         if let learnedHeight = learnedCellHeights[indexPath.section, indexPath.row] {
             return learnedHeight
         } else {
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         }
     }
     
@@ -543,7 +543,7 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
             }
             // Get Height
             let fittedWidth = tableView.bounds.width
-            let fittedHeight = UILayoutFittingCompressedSize.height
+            let fittedHeight = UIView.layoutFittingCompressedSize.height
             let fittingSize = CGSize(width: fittedWidth, height: fittedHeight)
             let size = prototype.contentView.systemLayoutSizeFitting(fittingSize,
                                                                      withHorizontalFittingPriority: UILayoutPriority(rawValue: 999),
@@ -595,7 +595,7 @@ open class DeltaTableViewController: UIViewController, UITableViewDelegate, UITa
             }
             // Get Height
             let fittedWidth = tableView.bounds.width
-            let fittedHeight = UILayoutFittingCompressedSize.height
+            let fittedHeight = UIView.layoutFittingCompressedSize.height
             let fittingSize = CGSize(width: fittedWidth, height: fittedHeight)
             let size = prototype.contentView.systemLayoutSizeFitting(fittingSize,
                                                                      withHorizontalFittingPriority: UILayoutPriority(rawValue: 999),
